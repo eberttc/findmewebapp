@@ -1,0 +1,54 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @lost_pet.status %>
+</p>
+
+<p>
+  <strong>Info:</strong>
+  <%= @lost_pet.info %>
+</p>
+
+<p>
+  <strong>Report date:</strong>
+  <%= @lost_pet.report_date %>
+</p>
+
+<p>
+  <strong>Lost date:</strong>
+  <%= @lost_pet.lost_date %>
+</p>
+
+<p>
+  <strong>Latitude:</strong>
+  <%= @lost_pet.latitude %>
+</p>
+
+<p>
+  <strong>Longitude:</strong>
+  <%= @lost_pet.longitude %>
+</p>
+
+<p>
+  <strong>Found date:</strong>
+  <%= @lost_pet.found_date %>
+</p>
+
+<p>
+  <strong>Pet:</strong>
+  <%= @lost_pet.pet %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @lost_pet.user %>
+</p>
+
+<p>
+  <strong>District:</strong>
+  <%= @lost_pet.district %>
+</p>
+
+<%= link_to 'Edit', edit_lost_pet_path(@lost_pet) %> |
+<%= link_to 'Back', lost_pets_path %>

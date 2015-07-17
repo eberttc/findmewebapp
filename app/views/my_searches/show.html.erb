@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Lost pet:</strong>
+  <%= @my_search.lost_pet %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @my_search.user %>
+</p>
+
+<%= link_to 'Edit', edit_my_search_path(@my_search) %> |
+<%= link_to 'Back', my_searches_path %>

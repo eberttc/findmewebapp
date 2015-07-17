@@ -1,0 +1,45 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Lost Pets</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Status</th>
+      <th>Info</th>
+      <th>Report date</th>
+      <th>Lost date</th>
+      <th>Latitude</th>
+      <th>Longitude</th>
+      <th>Found date</th>
+      <th>Pet</th>
+      <th>User</th>
+      <th>District</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @lost_pets.each do |lost_pet| %>
+      <tr>
+        <td><%= lost_pet.status %></td>
+        <td><%= lost_pet.info %></td>
+        <td><%= lost_pet.report_date %></td>
+        <td><%= lost_pet.lost_date %></td>
+        <td><%= lost_pet.latitude %></td>
+        <td><%= lost_pet.longitude %></td>
+        <td><%= lost_pet.found_date %></td>
+        <td><%= lost_pet.pet %></td>
+        <td><%= lost_pet.user %></td>
+        <td><%= lost_pet.district %></td>
+        <td><%= link_to 'Show', lost_pet %></td>
+        <td><%= link_to 'Edit', edit_lost_pet_path(lost_pet) %></td>
+        <td><%= link_to 'Destroy', lost_pet, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Lost pet', new_lost_pet_path %>

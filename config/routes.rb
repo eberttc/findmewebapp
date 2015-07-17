@@ -1,4 +1,17 @@
 Rails.application.routes.draw do
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+  resources :comments
+  resources :my_searches
+  resources :lost_pets
+  resources :pets
+  resources :races
+  resources :pet_types
+  get 'home/index'
+  root to: "home#index"
+  resources :profiles
+  devise_for :users
+  resources :districts
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

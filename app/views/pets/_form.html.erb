@@ -1,0 +1,24 @@
+<%= simple_form_for @pet, :html => { :class => 'form-horizontal' } do |f| %>
+  <%= f.input :name %>
+  <%= error_span(@pet[:name]) %>
+  <%= f.input :sex %>
+  <%= error_span(@pet[:sex]) %>
+  <%= f.input :age %>
+  <%= error_span(@pet[:age]) %>
+  <%= f.input :vaccinated %>
+  <%= error_span(@pet[:vaccinated]) %>
+  <%= f.input :information %>
+  <%= error_span(@pet[:information]) %>
+  <%= f.input :state %>
+  <%= error_span(@pet[:state]) %>
+  <%= f.input :pet_type_id %>
+  <%= error_span(@pet[:pet_type_id]) %>
+  <%= f.input :user_id %>
+  <%= error_span(@pet[:user_id]) %>
+  <%= f.input :race_id %>
+  <%= error_span(@pet[:race_id]) %>
+
+  <%= f.button :submit, :class => 'btn-primary' %>
+  <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                pets_path, :class => 'btn btn-default' %>
+<% end %>

@@ -43,3 +43,20 @@ group :development, :test do
   gem 'spring'
 end
 
+
+#form
+gem 'simple_form'
+
+#boostrap
+gem 'therubyracer'
+gem 'less-rails' 
+gem 'twitter-bootstrap-rails'
+gem 'annotate'
+
+
+#Autenthicate gem
+gem 'devise'
+
+
+#management gem
+gem 'rails_admin'
