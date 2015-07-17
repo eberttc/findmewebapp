@@ -1,10 +1,9 @@
 class PetsController < ApplicationController
   before_action :set_pet, only: [:show, :edit, :update, :destroy]
-
   # GET /pets
   # GET /pets.json
   def index
-    @pets = Pet.all
+    @pets = current_user.pets.all
   end
 
   # GET /pets/1
@@ -14,11 +13,13 @@ class PetsController < ApplicationController
 
   # GET /pets/new
   def new
+    @user = User.find(params[:user_id])
     @pet = Pet.new
   end
 
   # GET /pets/1/edit
   def edit
+    @user=current_user
   end
 
   # POST /pets
@@ -28,7 +29,7 @@ class PetsController < ApplicationController
 
     respond_to do |format|
       if @pet.save
-        format.html { redirect_to @pet, notice: 'Pet was successfully created.' }
+        format.html { redirect_to user_pet_path(current_user,@pet), notice: 'Pet was successfully created.' }
         format.json { render :show, status: :created, location: @pet }
       else
         format.html { render :new }
@@ -42,7 +43,7 @@ class PetsController < ApplicationController
   def update
     respond_to do |format|
       if @pet.update(pet_params)
-        format.html { redirect_to @pet, notice: 'Pet was successfully updated.' }
+        format.html { redirect_to user_pet_path(current_user,@pet), notice: 'Pet was successfully updated.' }
         format.json { render :show, status: :ok, location: @pet }
       else
         format.html { render :edit }
@@ -56,7 +57,7 @@ class PetsController < ApplicationController
   def destroy
     @pet.destroy
     respond_to do |format|
-      format.html { redirect_to pets_url, notice: 'Pet was successfully destroyed.' }
+      format.html { redirect_to user_pets_url, notice: 'Pet was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -69,6 +70,6 @@ class PetsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def pet_params
-      params.require(:pet).permit(:name, :sex, :age, :vaccinated, :information, :state, :pet_type_id, :user_id, :race_id)
+      params.require(:pet).permit(:name, :sex, :race_id, :age, :vaccinated, :information, :state, :pet_type_id, :user_id)
     end
 end

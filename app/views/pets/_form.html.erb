@@ -1,24 +1,25 @@
-<%= simple_form_for @pet, :html => { :class => 'form-horizontal' } do |f| %>
+<%= simple_form_for [@user,@pet], :html => { :class => 'form-horizontal' } do |f| %>
   <%= f.input :name %>
   <%= error_span(@pet[:name]) %>
-  <%= f.input :sex %>
+  <%= f.association  :pet_type %>
+  <%= error_span(@pet[:pet_type]) %>
+  <%= f.input :sex , :collection => [['Macho', 'Macho'], ['Hembra', 'Hembra']] , :as => :radio_buttons %>
   <%= error_span(@pet[:sex]) %>
+  <%= f.association :race %>
+  <%= error_span(@pet[:race]) %>
   <%= f.input :age %>
   <%= error_span(@pet[:age]) %>
-  <%= f.input :vaccinated %>
+  <%= f.input :vaccinated , :collection => ['SI', 'NO'] , :as => :radio_buttons %>
   <%= error_span(@pet[:vaccinated]) %>
   <%= f.input :information %>
   <%= error_span(@pet[:information]) %>
-  <%= f.input :state %>
+  <%= f.input :state , as: :hidden , :input_html => { :value => "1"}%>
   <%= error_span(@pet[:state]) %>
-  <%= f.input :pet_type_id %>
-  <%= error_span(@pet[:pet_type_id]) %>
-  <%= f.input :user_id %>
+  
+  <%= f.input :user_id , as: :hidden , :input_html => { :value => "#{current_user.id}"} %>
   <%= error_span(@pet[:user_id]) %>
-  <%= f.input :race_id %>
-  <%= error_span(@pet[:race_id]) %>
 
   <%= f.button :submit, :class => 'btn-primary' %>
   <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-                pets_path, :class => 'btn btn-default' %>
+                user_pets_path(current_user), :class => 'btn btn-default' %>
 <% end %>

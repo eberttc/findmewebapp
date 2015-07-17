@@ -20,4 +20,5 @@ class Pet < ActiveRecord::Base
   belongs_to :pet_type
   belongs_to :user
   belongs_to :race
+  has_many :lost_pet
 end
