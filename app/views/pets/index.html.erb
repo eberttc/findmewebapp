@@ -8,13 +8,11 @@
       <th><%= model_class.human_attribute_name(:id) %></th>
       <th><%= model_class.human_attribute_name(:name) %></th>
       <th><%= model_class.human_attribute_name(:sex) %></th>
+      <th><%= model_class.human_attribute_name(:race) %></th>
       <th><%= model_class.human_attribute_name(:age) %></th>
       <th><%= model_class.human_attribute_name(:vaccinated) %></th>
       <th><%= model_class.human_attribute_name(:information) %></th>
-      <th><%= model_class.human_attribute_name(:state) %></th>
       <th><%= model_class.human_attribute_name(:pet_type_id) %></th>
-      <th><%= model_class.human_attribute_name(:user_id) %></th>
-      <th><%= model_class.human_attribute_name(:race_id) %></th>
       <th><%= model_class.human_attribute_name(:created_at) %></th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
@@ -22,22 +20,20 @@
   <tbody>
     <% @pets.each do |pet| %>
       <tr>
-        <td><%= link_to pet.id, pet_path(pet) %></td>
+        <td><%= link_to pet.id, user_pet_path(current_user,pet) %></td>
         <td><%= pet.name %></td>
         <td><%= pet.sex %></td>
+        <td><%= pet.race.name %></td>
         <td><%= pet.age %></td>
         <td><%= pet.vaccinated %></td>
         <td><%= pet.information %></td>
-        <td><%= pet.state %></td>
-        <td><%= pet.pet_type_id %></td>
-        <td><%= pet.user_id %></td>
-        <td><%= pet.race_id %></td>
+        <td><%= pet.pet_type.description %></td>
         <td><%=l pet.created_at %></td>
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                      edit_pet_path(pet), :class => 'btn btn-default btn-xs' %>
+                      edit_user_pet_path(current_user,pet), :class => 'btn btn-default btn-xs' %>
           <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-                      pet_path(pet),
+                      user_pet_path(current_user,pet),
                       :method => :delete,
                       :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
                       :class => 'btn btn-xs btn-danger' %>
@@ -48,5 +44,5 @@
 </table>
 
 <%= link_to t('.new', :default => t("helpers.links.new")),
-            new_pet_path,
+            new_user_pet_path(current_user),
             :class => 'btn btn-primary' %>
