@@ -11,7 +11,8 @@
   <%= error_span(@profile[:user_id]) %>
   <%= f.association :district %>
   <%= error_span(@profile[:district]) %>
-
+  <%= f.file_field :photo %>
+  <%= error_span(@profile[:photo]) %>
   <%= f.button :submit, :class => 'btn-primary' %>
   <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
                 user_profiles_path(current_user,@profile), :class => 'btn btn-default' %>

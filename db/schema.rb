@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150717095046) do
+ActiveRecord::Schema.define(version: 20150717200121) do
 
   create_table "comments", force: :cascade do |t|
     t.text     "comment",     limit: 65535
@@ -67,17 +67,21 @@ ActiveRecord::Schema.define(version: 20150717095046) do
   end
 
   create_table "pets", force: :cascade do |t|
-    t.string   "name",        limit: 255
-    t.string   "sex",         limit: 255
-    t.integer  "age",         limit: 4
-    t.string   "vaccinated",  limit: 255
-    t.text     "information", limit: 65535
-    t.string   "state",       limit: 255
-    t.integer  "pet_type_id", limit: 4
-    t.integer  "user_id",     limit: 4
-    t.integer  "race_id",     limit: 4
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.string   "name",               limit: 255
+    t.string   "sex",                limit: 255
+    t.integer  "age",                limit: 4
+    t.string   "vaccinated",         limit: 255
+    t.text     "information",        limit: 65535
+    t.string   "state",              limit: 255
+    t.integer  "pet_type_id",        limit: 4
+    t.integer  "user_id",            limit: 4
+    t.integer  "race_id",            limit: 4
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.string   "photo_file_name",    limit: 255
+    t.string   "photo_content_type", limit: 255
+    t.integer  "photo_file_size",    limit: 4
+    t.datetime "photo_updated_at"
   end
 
   add_index "pets", ["pet_type_id"], name: "index_pets_on_pet_type_id", using: :btree
@@ -85,14 +89,18 @@ ActiveRecord::Schema.define(version: 20150717095046) do
   add_index "pets", ["user_id"], name: "index_pets_on_user_id", using: :btree
 
   create_table "profiles", force: :cascade do |t|
-    t.string   "name",        limit: 255
-    t.string   "lastname",    limit: 255
-    t.string   "address",     limit: 255
-    t.string   "sex",         limit: 255
-    t.integer  "user_id",     limit: 4
-    t.integer  "district_id", limit: 4
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.string   "name",               limit: 255
+    t.string   "lastname",           limit: 255
+    t.string   "address",            limit: 255
+    t.string   "sex",                limit: 255
+    t.integer  "user_id",            limit: 4
+    t.integer  "district_id",        limit: 4
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.string   "photo_file_name",    limit: 255
+    t.string   "photo_content_type", limit: 255
+    t.integer  "photo_file_size",    limit: 4
+    t.datetime "photo_updated_at"
   end
 
   add_index "profiles", ["district_id"], name: "index_profiles_on_district_id", using: :btree

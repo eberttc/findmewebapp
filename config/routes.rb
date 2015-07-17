@@ -1,17 +1,26 @@
 Rails.application.routes.draw do
-  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+  resources :races
   resources :comments
   resources :my_searches
   resources :lost_pets
-  resources :pets
-  resources :races
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+  #resources :pets
   resources :pet_types
-  get 'home/index'
-  root to: "home#index"
-  resources :profiles
-  devise_for :users
+  #resources :profiles
   resources :districts
-
+  devise_for :users
+  get 'home/index'
+  
+ 
+  resources :users do
+    resources :pets
+    resource :profiles, only: [:show, :update, :edit]
+  end
+  
+  #get 'users/:id/:profile' , path: "edit_user_profile" , to: 'profiles#profile_exists'
+  
+  
+  root to: "home#index"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

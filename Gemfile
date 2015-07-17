@@ -60,3 +60,6 @@ gem 'devise'
 
 #management gem
 gem 'rails_admin'
+
+
+gem 'paperclip', github: 'thoughtbot/paperclip'

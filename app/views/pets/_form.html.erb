@@ -4,6 +4,8 @@
   <%= f.association  :pet_type %>
   <%= error_span(@pet[:pet_type]) %>
   <%= f.input :sex , :collection => [['Macho', 'Macho'], ['Hembra', 'Hembra']] , :as => :radio_buttons %>
+   <%= f.file_field :photo %>
+  <%= error_span(@pet[:photo]) %>
   <%= error_span(@pet[:sex]) %>
   <%= f.association :race %>
   <%= error_span(@pet[:race]) %>
