@@ -1,0 +1,14 @@
+<%= simple_form_for [@user], :html => { :class => 'form-horizontal' } do |f| %>
+  <%= f.input :username %>
+  <%= error_span(@user[:username]) %>
+  <%= f.input :email %>
+  <%= error_span(@user[:email]) %>
+  <%= f.input :password ,required: true, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length) %>
+  <%= error_span(@user[:password]) %>
+  <%= f.input :password_confirmation  ,required: true, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length) %>
+  <%= error_span(@user[:password_confirmation ]) %>
+  
+  <%= f.button :submit, :class => 'btn-primary' %>
+  <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                users_path(@user), :class => 'btn btn-default' %>
+<% end %>

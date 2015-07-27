@@ -1,5 +1,5 @@
 class ProfilesController < ApplicationController
-  before_action :set_profile, only: [:show, :edit, :update, :destroy ,:profile_exists]
+  before_action :set_profile, only: [:show, :edit, :update, :destroy]
 
  
 
@@ -65,8 +65,8 @@ class ProfilesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_profile
     
-      @profile = Profile.find_or_create_by(user_id: current_user.id)
-      @user = User.find( current_user.id)
+      @profile = Profile.find_or_create_by(params[:user_id])
+      @user = User.find(params[:user_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

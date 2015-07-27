@@ -12,10 +12,8 @@
   <dd><%= @profile.address %></dd>
   <dt><strong><%= model_class.human_attribute_name(:sex) %>:</strong></dt>
   <dd><%= @profile.sex %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:user_id) %>:</strong></dt>
-  <dd><%= @profile.user_id %></dd>
   <dt><strong><%= model_class.human_attribute_name(:district_id) %>:</strong></dt>
-  <dd><%= @profile.district_id %></dd>
+  <dd><%= @profile.district.name %></dd>
   <dt><strong><%= model_class.human_attribute_name(:photo) %>:</strong></dt>
   <dd><%= image_tag @profile.photo.url(:thumb) %></dd>
 </dl>

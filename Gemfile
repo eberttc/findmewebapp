@@ -55,7 +55,7 @@ gem 'annotate'
 
 
 #Autenthicate gem
-gem 'devise'
+#gem 'devise'
 
 
 #management gem
@@ -63,3 +63,5 @@ gem 'rails_admin'
 
 
 gem 'paperclip', github: 'thoughtbot/paperclip'
+
+gem 'bcrypt'
