@@ -5,7 +5,36 @@ class LostPetsController < ApplicationController
   # GET /lost_pets.json
   def index
     @lost_pets = LostPet.all
+    @lost_pets = LostPet.by_distrito(params[:district_id]) unless params[:district_id].blank?
+    #@lost_pets=LostPet.where('district_id = ?', params[:district_id]) unless params[:district_id].blank?
+    #@lost_pets=Pet.where('race_id = ?', params[:race_id]) unless params[:race_id].blank?
+    #@lost_pets=@lost_pets.lost_pet unless params[:race_id].blank?
+    @lost_pets= LostPet.by_tipo(params[:pet_type_id]) unless params[:pet_type_id].blank?
+    @lost_pets= current_user.lost_pets.all unless params[:id_user].blank?
+   
+    respond_to do |format|
+      format.html { render :index }
+      format.json { render json: @lost_pets.to_json(:include => :pet) }
+    end
   end
+
+
+  def addLostPet
+    @my_search = MySearch.new()
+    @my_search.lost_pet_id=params[:id]
+    @my_search.user_id=current_user.id
+    
+     respond_to do |format|
+      if @my_search.save
+        format.html { redirect_to @my_search, notice: 'My search was successfully created.' }
+        format.json { render :show, status: :created, location: @my_search }
+      else
+        format.html { render :new }
+        format.json { render json: @my_search.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+  
 
   # GET /lost_pets/1
   # GET /lost_pets/1.json
@@ -15,10 +44,16 @@ class LostPetsController < ApplicationController
   # GET /lost_pets/new
   def new
     @lost_pet = LostPet.new
+    @lost_pet.latitude="-12.086794"
+    @lost_pet.longitude="-77.035828"
+    @MyPets=current_user.pets.all
+    #@pet_lost = Pet.find(params[:id_pet]) 
+    #@lost_pet.pet=Pet.find(params[:id_pet]) if ! params[:id_pet].nil?
   end
 
   # GET /lost_pets/1/edit
   def edit
+     @MyPets=current_user.pets.all
   end
 
   # POST /lost_pets
@@ -72,3 +107,4 @@ class LostPetsController < ApplicationController
       params.require(:lost_pet).permit(:status, :info, :report_date, :lost_date, :latitude, :longitude, :found_date, :pet_id, :user_id, :district_id)
     end
 end
+

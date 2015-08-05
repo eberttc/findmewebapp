@@ -26,7 +26,7 @@
 <%= link_to t('.back', :default => t("helpers.links.back")),
               user_pets_path(current_user), :class => 'btn btn-default'  %>
 <%= link_to t('.edit', :default => t("helpers.links.edit")),
-              edit_user_pet_path(current_user,@pet), :class => 'btn btn-default' %>
+              edit_user_pet_path(current_user,@pet), :class => 'btn btn-default',data: { no_turbolink: true }  %>
 <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
               user_pet_path(current_user,@pet),
               :method => 'delete',

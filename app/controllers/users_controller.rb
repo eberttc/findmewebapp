@@ -17,7 +17,7 @@ class UsersController < ApplicationController
            session[:user_id]=@user.id
          else
            format.html { render :new }
-           format.json { render json: @user.errors  }
+           format.json {  render json: @user.errors  }
     
          end
       end

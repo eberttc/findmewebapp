@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   resources :races
   resources :comments
-  resources :my_searches
+  #resources :my_searches
   resources :lost_pets
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   #resources :pets
@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   get '/register',to: 'users#new'
   resources :users ,  except: [:new]  do
     resources :pets
+    resources :my_searches
     resource :profiles, only: [:show, :update, :edit]
   end
   
@@ -23,7 +24,8 @@ Rails.application.routes.draw do
   get '/login' ,to: 'logins#new'
   post '/login' ,to: 'logins#create'
   get '/logout' ,to: 'logins#destroy'
-  
+  get '/add_lostpet' ,to: 'lost_pets#addLostPet' , as: 'add_lost_pet'
+   
   
   
   

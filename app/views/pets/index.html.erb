@@ -34,6 +34,7 @@
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
                       edit_user_pet_path(current_user,pet), :class => 'btn btn-default btn-xs' %>
+          <%= link_to 'Reportar',new_lost_pet_path, :class => 'btn btn-default btn-xs', :id_pet => pet.id  ,data: { no_turbolink: true } %>
           <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
                       user_pet_path(current_user,pet),
                       :method => :delete,

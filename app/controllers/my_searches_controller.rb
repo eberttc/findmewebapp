@@ -4,7 +4,13 @@ class MySearchesController < ApplicationController
   # GET /my_searches
   # GET /my_searches.json
   def index
-    @my_searches = MySearch.all
+    user1 = User.find(params[:user_id])
+    @my_searches = user1.my_searches.all
+    
+     respond_to do |format|
+      format.html { render :index }
+      format.json { render json: @my_searches.to_json(:include => {:lost_pet => :pet}) }
+    end
   end
 
   # GET /my_searches/1
@@ -14,6 +20,7 @@ class MySearchesController < ApplicationController
 
   # GET /my_searches/new
   def new
+    @user = User.find(params[:user_id])
     @my_search = MySearch.new
   end
 
@@ -28,7 +35,7 @@ class MySearchesController < ApplicationController
 
     respond_to do |format|
       if @my_search.save
-        format.html { redirect_to @my_search, notice: 'My search was successfully created.' }
+        format.html { redirect_to user_my_search_path(current_user,@my_search), notice: 'My search was successfully created.' }
         format.json { render :show, status: :created, location: @my_search }
       else
         format.html { render :new }

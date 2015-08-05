@@ -65,7 +65,7 @@ class ProfilesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_profile
     
-      @profile = Profile.find_or_create_by(params[:user_id])
+      @profile = Profile.find_or_create_by(user_id:params[:user_id])
       @user = User.find(params[:user_id])
     end
 
@@ -74,6 +74,4 @@ class ProfilesController < ApplicationController
       params.require(:profile).permit(:name, :lastname, :address, :sex, :user_id, :district_id ,:photo)
     end
     
-    
-  
 end

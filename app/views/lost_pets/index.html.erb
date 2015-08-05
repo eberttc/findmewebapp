@@ -1,45 +1,74 @@
-<p id="notice"><%= notice %></p>
 
-<h1>Listing Lost Pets</h1>
 
-<table>
+<%- model_class = LostPet -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+</div>
+
+<%= form_tag lost_pets_path, method: :get do %>
+   <div class="form-group">
+    <%= select_tag :district_id, options_from_collection_for_select(District.all, "id", "name", params[:district_id]), prompt: "Distrito", class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= select_tag :pet_type_id, options_from_collection_for_select(PetType.all, "id", "name", params[:pet_type_id]), prompt: "Tipo", class: "form-control" %>
+  </div>
+  <div class="form-group">
+    Mis Mascotas  <%= check_box_tag 'id_user', current_user.id %>
+  </div>
+  
+  
+  <%= submit_tag "Buscar", name: nil, class: "btn btn-primary btn-md" %>
+<% end %>
+
+
+<table class="table table-striped">
   <thead>
     <tr>
-      <th>Status</th>
-      <th>Info</th>
-      <th>Report date</th>
-      <th>Lost date</th>
-      <th>Latitude</th>
-      <th>Longitude</th>
-      <th>Found date</th>
-      <th>Pet</th>
-      <th>User</th>
-      <th>District</th>
-      <th colspan="3"></th>
+      <th><%= model_class.human_attribute_name(:id) %></th>
+      <th><%= model_class.human_attribute_name(:status) %></th>
+      <th><%= model_class.human_attribute_name(:info) %></th>
+      <th><%= model_class.human_attribute_name(:report_date) %></th>
+      <th><%= model_class.human_attribute_name(:lost_date) %></th>
+      <th><%= model_class.human_attribute_name(:found_date) %></th>
+      <th><%= model_class.human_attribute_name(:pet_id) %></th>
+      <th><%= model_class.human_attribute_name(:district_id) %></th>
+      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
-
   <tbody>
     <% @lost_pets.each do |lost_pet| %>
       <tr>
+        <td><%= link_to lost_pet.id, lost_pet_path(lost_pet) %></td>
         <td><%= lost_pet.status %></td>
         <td><%= lost_pet.info %></td>
         <td><%= lost_pet.report_date %></td>
         <td><%= lost_pet.lost_date %></td>
-        <td><%= lost_pet.latitude %></td>
-        <td><%= lost_pet.longitude %></td>
         <td><%= lost_pet.found_date %></td>
-        <td><%= lost_pet.pet %></td>
-        <td><%= lost_pet.user %></td>
-        <td><%= lost_pet.district %></td>
-        <td><%= link_to 'Show', lost_pet %></td>
-        <td><%= link_to 'Edit', edit_lost_pet_path(lost_pet) %></td>
-        <td><%= link_to 'Destroy', lost_pet, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= lost_pet.pet.name%></td>
+        <td><%= lost_pet.district.name %></td>
+        <td><%=l lost_pet.created_at %></td>
+        <td>
+          <% if lost_pet.user_id==current_user.id %>
+                      <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_lost_pet_path(lost_pet), :class => 'btn btn-default btn-xs' ,data: { no_turbolink: true } %>
+                      
+                      <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      lost_pet_path(lost_pet),
+                      :method => :delete,
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :class => 'btn btn-xs btn-danger' %>
+          <%else%>            
+                      <%= link_to 'Search',
+                          add_lost_pet_path(lost_pet), :class => 'btn btn-default btn-xs' ,data: { no_turbolink: true } %>
+          <%end%>
+         
+        </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<br>
-
-<%= link_to 'New Lost pet', new_lost_pet_path %>
+<%= link_to t('.new', :default => t("helpers.links.new")),
+            new_lost_pet_path,
+            :class => 'btn btn-primary',data: { no_turbolink: true } %>

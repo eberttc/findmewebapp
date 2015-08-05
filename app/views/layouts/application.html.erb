@@ -50,9 +50,10 @@
           <ul class="nav navbar-nav">
             
                 <% if logged_in? %>
-                 <li><%= link_to "My Profile", user_profiles_path(1)%></li>
-                 <li><%= link_to "My Pets", user_pets_path(1)  %></li>
-                 <li><%= link_to "My Search", my_searches_path  %></li>
+                 <li><%= link_to "Profile", user_profiles_path(current_user)%></li>
+                 <li><%= link_to "Pets", user_pets_path(current_user)  %></li>
+                 <li><%= link_to "Search", user_my_searches_path(current_user)  %></li>
+                 <li><%= link_to "Lost Pets", lost_pets_path  %></li>
                  <li><%= link_to "Admin" ,rails_admin.dashboard_path %></li>
                  <li> <%= link_to "Sign_out",  logout_path%> </li>
                  <% else %>
@@ -79,23 +80,10 @@
          <%= bootstrap_flash %>
           <%= yield %>
         </div>
-        <div class="col-lg-3">
-          <div class="well sidebar-nav">
-            <h3>Find Me</h3>
-            <ul class="nav nav-list">
-              <li class="nav-header">Finding Me</li>
-             <% if logged_in? %>
-                 <li><%= link_to "My Profile",  user_profiles_path(1)   %></li>
-                 <li><%= link_to "My Pets", user_pets_path(1)%></li>
-                 <li><%= link_to "My Search", my_searches_path  %></li>
-             <% end %>
-            </ul>
-          </div><!--/.well -->
-        </div><!--/span-->
       </div><!--/row-->
 
       <footer>
-        <p>&copy; Company 2015</p>
+        <p>&copy; I+T Company 2015</p>
       </footer>
 
     </div> <!-- /container -->

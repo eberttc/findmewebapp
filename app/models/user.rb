@@ -17,11 +17,13 @@ class User < ActiveRecord::Base
    #      :recoverable, :rememberable, :trackable, :validatable
     
    before_save {self.email =email.downcase}    
-   validates :username, presence: true, length:{minimum: 3,maximun: 40} , uniqueness: {case_sensitive: false}
+   validates :username, presence: true, length:{minimum: 3,maximun: 40} , uniqueness: {case_sensitive: true}
    VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
-   validates :email, presence: true, length: {maximum: 105},format: {with: VALID_EMAIL_REGEX}
+   validates :email, presence: true, uniqueness: {case_sensitive: true} ,length: {maximum: 105},format: {with: VALID_EMAIL_REGEX}
    validates :password, confirmation: :true          
          has_many :pets
+         has_many :lost_pets
+         has_many :my_searches
          has_one :profiles
          has_secure_password
         

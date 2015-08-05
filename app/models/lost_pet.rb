@@ -18,7 +18,15 @@
 #
 
 class LostPet < ActiveRecord::Base
-  belongs_to :pet
+  belongs_to :pet 
   belongs_to :user
   belongs_to :district
+  
+  #scope :distrito, ->(id) {where ('district_id = ?', id)}
+  scope :by_distrito ,lambda{ |district_id| where(district_id: district_id)}
+  scope :by_tipo, lambda { |pet_type_id|
+    joins(:pet).where(["pets.pet_type_id = ?", pet_type_id])
+  }
+  
+  #accepts_nested_attributes_for :pet
 end

@@ -5,6 +5,11 @@ class DistrictsController < ApplicationController
   # GET /districts.json
   def index
     @districts = District.all
+    respond_to do |format|
+      format.html { render :index }
+      format.json { render json: @districts }
+    
+    end
   end
 
   # GET /districts/1

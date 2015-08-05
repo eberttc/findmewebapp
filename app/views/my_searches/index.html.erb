@@ -16,9 +16,9 @@
       <tr>
         <td><%= my_search.lost_pet %></td>
         <td><%= my_search.user %></td>
-        <td><%= link_to 'Show', my_search %></td>
-        <td><%= link_to 'Edit', edit_my_search_path(my_search) %></td>
-        <td><%= link_to 'Destroy', my_search, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', user_my_search_path(current_user,my_search) %></td>
+        <td><%= link_to 'Edit', edit_user_my_search_path(current_user,my_search) %></td>
+        <td><%= link_to 'Destroy', user_my_search_path(current_user,my_search), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -26,4 +26,4 @@
 
 <br>
 
-<%= link_to 'New My search', new_my_search_path %>
+<%= link_to 'New My search', new_user_my_search_path(current_user) %>
