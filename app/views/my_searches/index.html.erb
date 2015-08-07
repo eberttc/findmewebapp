@@ -1,29 +1,42 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Listing My Searches</h1>
-
-<table>
+<%- model_class = MySearch -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+</div>
+<table class="table table-striped">
   <thead>
     <tr>
-      <th>Lost pet</th>
-      <th>User</th>
-      <th colspan="3"></th>
+      
+      <th><%= model_class.human_attribute_name(:lost_pet_id) %></th>
+      <th><%= model_class.human_attribute_name(:user_id) %></th>
+      <th>state</th>
+      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
-
   <tbody>
     <% @my_searches.each do |my_search| %>
       <tr>
-        <td><%= my_search.lost_pet %></td>
-        <td><%= my_search.user %></td>
-        <td><%= link_to 'Show', user_my_search_path(current_user,my_search) %></td>
-        <td><%= link_to 'Edit', edit_user_my_search_path(current_user,my_search) %></td>
-        <td><%= link_to 'Destroy', user_my_search_path(current_user,my_search), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        
+        <td><%= link_to my_search.lost_pet.pet.name, lost_pet_path(my_search.lost_pet)  ,data: { no_turbolink: true } %></td>
+        <td><%= my_search.user.profile.name %></td>
+        <%if my_search.lost_pet.pet.state=="P"%>
+           <td>LOST</td>
+        <%else%>
+           <td>FOUNDED</td>
+        <%end%>
+       
+        <td><%=l my_search.created_at ,format: :fecha%></td>
+        <td>
+          <%= link_to "Comments" ,
+                       lost_pet_comments_path(my_search.lost_pet), :class => 'btn btn-default btn-xs' %>
+          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                     user_my_search_path(current_user,my_search),
+                      :method => :delete,
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :class => 'btn btn-xs btn-danger' %>
+        </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<br>
-
-<%= link_to 'New My search', new_user_my_search_path(current_user) %>

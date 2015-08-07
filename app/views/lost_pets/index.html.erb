@@ -24,30 +24,34 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th><%= model_class.human_attribute_name(:id) %></th>
-      <th><%= model_class.human_attribute_name(:status) %></th>
-      <th><%= model_class.human_attribute_name(:info) %></th>
+      
+      
+      <th><%= model_class.human_attribute_name(:pet_id) %></th>
+      <th>Owner</th>
       <th><%= model_class.human_attribute_name(:report_date) %></th>
       <th><%= model_class.human_attribute_name(:lost_date) %></th>
-      <th><%= model_class.human_attribute_name(:found_date) %></th>
-      <th><%= model_class.human_attribute_name(:pet_id) %></th>
+      <th><%= model_class.human_attribute_name(:info) %></th>
       <th><%= model_class.human_attribute_name(:district_id) %></th>
-      <th><%= model_class.human_attribute_name(:created_at) %></th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
   <tbody>
     <% @lost_pets.each do |lost_pet| %>
       <tr>
-        <td><%= link_to lost_pet.id, lost_pet_path(lost_pet) %></td>
-        <td><%= lost_pet.status %></td>
-        <td><%= lost_pet.info %></td>
+     
+        <td><%= link_to lost_pet.pet.name, lost_pet_path(lost_pet)  ,data: { no_turbolink: true } %></td>
+        <% if lost_pet.pet.user.id == current_user.id %>
+            <td>Me</td>
+        <%else%>
+            <td><%= lost_pet.pet.user.profile.name %></td>
+        <%end%>
+      
         <td><%= lost_pet.report_date %></td>
         <td><%= lost_pet.lost_date %></td>
-        <td><%= lost_pet.found_date %></td>
-        <td><%= lost_pet.pet.name%></td>
+       
+        <td><%= lost_pet.info %></td>
         <td><%= lost_pet.district.name %></td>
-        <td><%=l lost_pet.created_at %></td>
+       
         <td>
           <% if lost_pet.user_id==current_user.id %>
                       <%= link_to t('.edit', :default => t("helpers.links.edit")),
@@ -60,8 +64,11 @@
                       :class => 'btn btn-xs btn-danger' %>
           <%else%>            
                       <%= link_to 'Search',
-                          add_lost_pet_path(lost_pet), :class => 'btn btn-default btn-xs' ,data: { no_turbolink: true } %>
+                          add_lost_pet_path(lost_pet,:user_id => current_user.id), :class => 'btn btn-default btn-xs'  ,data: { no_turbolink: true } %>
           <%end%>
+          <%= link_to "Comments" ,
+                       lost_pet_comments_path(lost_pet), :class => 'btn btn-default btn-xs' %>
+        
          
         </td>
       </tr>

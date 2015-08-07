@@ -5,6 +5,10 @@ class RacesController < ApplicationController
   # GET /races.json
   def index
     @races = Race.all
+     respond_to do |format|
+      format.html { render :index }
+      format.json { render json: @races }
+    end
   end
 
   # GET /races/1

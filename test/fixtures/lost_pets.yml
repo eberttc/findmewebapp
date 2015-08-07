@@ -4,7 +4,7 @@
 #
 #  id          :integer          not null, primary key
 #  status      :string(255)
-#  info        :string(255)
+#  info        :text(65535)
 #  report_date :date
 #  lost_date   :date
 #  latitude    :string(255)

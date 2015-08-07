@@ -5,11 +5,12 @@ class MySearchesController < ApplicationController
   # GET /my_searches.json
   def index
     user1 = User.find(params[:user_id])
-    @my_searches = user1.my_searches.all
+    @my_searches = user1.my_searches.all.where({state:1})
     
      respond_to do |format|
       format.html { render :index }
-      format.json { render json: @my_searches.to_json(:include => {:lost_pet => :pet}) }
+      format.json { render json: @my_searches.to_json(:include => {:lost_pet =>{ :include => :pet }}) }
+                                        
     end
   end
 
@@ -49,7 +50,7 @@ class MySearchesController < ApplicationController
   def update
     respond_to do |format|
       if @my_search.update(my_search_params)
-        format.html { redirect_to @my_search, notice: 'My search was successfully updated.' }
+        format.html { redirect_to user_my_search_path(current_user,@my_search), notice: 'My search was successfully updated.' }
         format.json { render :show, status: :ok, location: @my_search }
       else
         format.html { render :edit }
@@ -61,10 +62,18 @@ class MySearchesController < ApplicationController
   # DELETE /my_searches/1
   # DELETE /my_searches/1.json
   def destroy
-    @my_search.destroy
+    #@my_search.destroy
+    
     respond_to do |format|
-      format.html { redirect_to my_searches_url, notice: 'My search was successfully destroyed.' }
-      format.json { head :no_content }
+      
+       if @my_search.update_attribute(:state ,0)
+         format.html { redirect_to user_my_searches_url, notice: 'My search was successfully destroyed.' }
+          format.json { head :no_content }
+       else
+          format.html { redirect_to user_my_searches_url, notice: 'My search was not successfully destroyed.' }
+          format.json { render json: @my_search.errors, status: :unprocessable_entity }
+       end
+      
     end
   end
 

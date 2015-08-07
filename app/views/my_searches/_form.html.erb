@@ -1,12 +1,10 @@
-<%= simple_form_for [@user,@my_search] do |f| %>
-  <%= f.error_notification %>
+<%= simple_form_for [current_user,@my_search], :html => { :class => 'form-horizontal' } do |f| %>
+  <%= f.input :lost_pet_id %>
+  <%= error_span(@my_search[:lost_pet_id]) %>
+  <%= f.input :user_id %>
+  <%= error_span(@my_search[:user_id]) %>
 
-  <div class="form-inputs">
-    <%= f.association :lost_pet %>
-    <%= f.association :user %>
-  </div>
-
-  <div class="form-actions">
-    <%= f.button :submit %>
-  </div>
+  <%= f.button :submit, :class => 'btn-primary' %>
+  <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                user_my_searches_path(), :class => 'btn btn-default' %>
 <% end %>

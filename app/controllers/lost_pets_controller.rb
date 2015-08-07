@@ -4,13 +4,10 @@ class LostPetsController < ApplicationController
   # GET /lost_pets
   # GET /lost_pets.json
   def index
-    @lost_pets = LostPet.all
-    @lost_pets = LostPet.by_distrito(params[:district_id]) unless params[:district_id].blank?
-    #@lost_pets=LostPet.where('district_id = ?', params[:district_id]) unless params[:district_id].blank?
-    #@lost_pets=Pet.where('race_id = ?', params[:race_id]) unless params[:race_id].blank?
-    #@lost_pets=@lost_pets.lost_pet unless params[:race_id].blank?
-    @lost_pets= LostPet.by_tipo(params[:pet_type_id]) unless params[:pet_type_id].blank?
-    @lost_pets= current_user.lost_pets.all unless params[:id_user].blank?
+    @lost_pets = LostPet.all.where({ status: "1"}).order("report_date DESC")
+    @lost_pets = LostPet.by_distrito(params[:district_id]).where({ status: "1"}).order("report_date DESC") unless params[:district_id].blank?
+    @lost_pets= LostPet.by_tipo(params[:pet_type_id]).where({ status: "1"}).order("report_date DESC") unless params[:pet_type_id].blank?
+    @lost_pets= current_user.lost_pets.all.where({ status: "1"}).order("report_date DESC") unless params[:id_user].blank?
    
     respond_to do |format|
       format.html { render :index }
@@ -22,12 +19,14 @@ class LostPetsController < ApplicationController
   def addLostPet
     @my_search = MySearch.new()
     @my_search.lost_pet_id=params[:id]
-    @my_search.user_id=current_user.id
+    @my_search.user_id=params[:user_id]
+    @my_search.state=1
     
      respond_to do |format|
       if @my_search.save
-        format.html { redirect_to @my_search, notice: 'My search was successfully created.' }
-        format.json { render :show, status: :created, location: @my_search }
+       # format.html { redirect_to user_my_searches_path(:user_id => params[:user_id]), notice: 'My search was successfully created.' }
+        format.html { redirect_to   lost_pet_path(params[:id]), notice: 'You have started searching this pet.' }
+        format.json { render json: @my_search}
       else
         format.html { render :new }
         format.json { render json: @my_search.errors, status: :unprocessable_entity }
@@ -47,8 +46,11 @@ class LostPetsController < ApplicationController
     @lost_pet.latitude="-12.086794"
     @lost_pet.longitude="-77.035828"
     @MyPets=current_user.pets.all
-    #@pet_lost = Pet.find(params[:id_pet]) 
-    #@lost_pet.pet=Pet.find(params[:id_pet]) if ! params[:id_pet].nil?
+    pet_lost = Pet.find(params[:id_pet]) if ! params[:id_pet].nil?
+    if pet_lost
+       @lost_pet.pet=pet_lost
+    end  
+   
   end
 
   # GET /lost_pets/1/edit
@@ -60,9 +62,19 @@ class LostPetsController < ApplicationController
   # POST /lost_pets.json
   def create
     @lost_pet = LostPet.new(lost_pet_params)
-
+    @lost_pet.status="1"
+    @lost_pet.report_date=Time.now
     respond_to do |format|
       if @lost_pet.save
+        pet = Pet.find(@lost_pet.pet_id)
+        pet.update_attribute(:state ,"P") 
+        
+        @my_search = MySearch.new()
+        @my_search.lost_pet_id=@lost_pet.id
+        @my_search.user_id=@lost_pet.user_id
+        @my_search.state=1
+        @my_search.save
+        
         format.html { redirect_to @lost_pet, notice: 'Lost pet was successfully created.' }
         format.json { render :show, status: :created, location: @lost_pet }
       else
@@ -89,10 +101,18 @@ class LostPetsController < ApplicationController
   # DELETE /lost_pets/1
   # DELETE /lost_pets/1.json
   def destroy
-    @lost_pet.destroy
+    #@lost_pet.destroy
+   
     respond_to do |format|
-      format.html { redirect_to lost_pets_url, notice: 'Lost pet was successfully destroyed.' }
-      format.json { head :no_content }
+         if @lost_pet.update_attribute(:status ,"0") #Se anula
+            pet = Pet.find(@lost_pet.pet_id)
+            pet.update_attribute(:state ,"A")
+            format.html { redirect_to lost_pets_url, notice: 'Lost pet was successfully removed.' }
+            format.json { head :no_content }
+         else
+            format.html { redirect_to lost_pets_url, notice: 'Lost pet error' }
+            format.json {  render json: @lost_pet.errors, status: :unprocessable_entity }
+         end
     end
   end
 
@@ -107,4 +127,5 @@ class LostPetsController < ApplicationController
       params.require(:lost_pet).permit(:status, :info, :report_date, :lost_date, :latitude, :longitude, :found_date, :pet_id, :user_id, :district_id)
     end
 end
+
 

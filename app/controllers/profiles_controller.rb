@@ -40,7 +40,7 @@ class ProfilesController < ApplicationController
     respond_to do |format|
       if @profile.update(profile_params)
         format.html { redirect_to user_profiles_path(current_user) , notice: 'Profile was successfully updated.' }
-        format.json { render :show, status: :ok, location: @profile }
+        format.json { render json: @profile}
       else
         format.html { render :edit }
         format.json { render json: @profile.errors, status: :unprocessable_entity }
@@ -71,7 +71,7 @@ class ProfilesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def profile_params
-      params.require(:profile).permit(:name, :lastname, :address, :sex, :user_id, :district_id ,:photo)
+      params.require(:profile).permit(:name, :lastname, :address, :sex, :user_id, :district_id ,:photo,:picture)
     end
     
 end

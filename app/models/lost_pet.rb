@@ -4,7 +4,7 @@
 #
 #  id          :integer          not null, primary key
 #  status      :string(255)
-#  info        :string(255)
+#  info        :text(65535)
 #  report_date :date
 #  lost_date   :date
 #  latitude    :string(255)
@@ -21,7 +21,7 @@ class LostPet < ActiveRecord::Base
   belongs_to :pet 
   belongs_to :user
   belongs_to :district
-  
+  has_many :comments
   #scope :distrito, ->(id) {where ('district_id = ?', id)}
   scope :by_distrito ,lambda{ |district_id| where(district_id: district_id)}
   scope :by_tipo, lambda { |pet_type_id|

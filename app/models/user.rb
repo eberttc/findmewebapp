@@ -24,7 +24,7 @@ class User < ActiveRecord::Base
          has_many :pets
          has_many :lost_pets
          has_many :my_searches
-         has_one :profiles
+         has_one :profile
          has_secure_password
         
 end

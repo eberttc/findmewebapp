@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150725063106) do
+ActiveRecord::Schema.define(version: 20150807084524) do
 
   create_table "comments", force: :cascade do |t|
     t.text     "comment",     limit: 65535
@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(version: 20150725063106) do
 
   create_table "lost_pets", force: :cascade do |t|
     t.string   "status",      limit: 255
-    t.string   "info",        limit: 255
+    t.text     "info",        limit: 65535
     t.date     "report_date"
     t.date     "lost_date"
     t.string   "latitude",    limit: 255
@@ -42,8 +42,8 @@ ActiveRecord::Schema.define(version: 20150725063106) do
     t.integer  "pet_id",      limit: 4
     t.integer  "user_id",     limit: 4
     t.integer  "district_id", limit: 4
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
   add_index "lost_pets", ["district_id"], name: "index_lost_pets_on_district_id", using: :btree
@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 20150725063106) do
     t.integer  "user_id",     limit: 4
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
+    t.integer  "state",       limit: 4
   end
 
   add_index "my_searches", ["lost_pet_id"], name: "index_my_searches_on_lost_pet_id", using: :btree
@@ -82,6 +83,7 @@ ActiveRecord::Schema.define(version: 20150725063106) do
     t.string   "photo_content_type", limit: 255
     t.integer  "photo_file_size",    limit: 4
     t.datetime "photo_updated_at"
+    t.text     "picture",            limit: 65535
   end
 
   add_index "pets", ["pet_type_id"], name: "index_pets_on_pet_type_id", using: :btree
@@ -95,12 +97,13 @@ ActiveRecord::Schema.define(version: 20150725063106) do
     t.string   "sex",                limit: 255
     t.integer  "user_id",            limit: 4
     t.integer  "district_id",        limit: 4
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
     t.string   "photo_file_name",    limit: 255
     t.string   "photo_content_type", limit: 255
     t.integer  "photo_file_size",    limit: 4
     t.datetime "photo_updated_at"
+    t.text     "picture",            limit: 65535
   end
 
   add_index "profiles", ["district_id"], name: "index_profiles_on_district_id", using: :btree
@@ -113,24 +116,14 @@ ActiveRecord::Schema.define(version: 20150725063106) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                  limit: 255, default: "", null: false
-    t.string   "encrypted_password",     limit: 255, default: "", null: false
-    t.string   "reset_password_token",   limit: 255
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          limit: 4,   default: 0,  null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip",     limit: 255
-    t.string   "last_sign_in_ip",        limit: 255
-    t.datetime "created_at",                                      null: false
-    t.datetime "updated_at",                                      null: false
-    t.string   "username",               limit: 255
-    t.string   "password_digest",        limit: 255
+    t.string   "email",           limit: 255, default: "", null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+    t.string   "username",        limit: 255
+    t.string   "password_digest", limit: 255
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   add_foreign_key "comments", "lost_pets"
   add_foreign_key "comments", "users"

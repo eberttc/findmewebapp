@@ -1,23 +1,21 @@
 <%= simple_form_for @lost_pet, :html => { :class => 'form-horizontal' } do |f| %>
-  <%= f.input :info %>
-  <%= error_span(@lost_pet[:info]) %>
-  <%= f.input :report_date ,:as => :string , :input_html => {class: "datepicker"}  %>
-  <%= error_span(@lost_pet[:report_date]) %>
+ 
   <%= f.input :lost_date , :as => :string , :input_html => {class: "datepicker"} %>
+   <div><strong>Lost Place</strong></div>	
    <div id="map-canvas"></div>	
   <%= error_span(@lost_pet[:lost_date]) %>
   <%= f.input :latitude ,as: :hidden%>
   <%= error_span(@lost_pet[:latitude]) %>
   <%= f.input :longitude,as: :hidden %>
   <%= error_span(@lost_pet[:longitude]) %>
-  <%= f.input :found_date , :as => :string , :input_html => {class: "datepicker"} %>
-  <%= error_span(@lost_pet[:found_date]) %>
   <%= f.association :pet , collection: @MyPets, prompt: "Choose a Pet"%>
   <%= error_span(@lost_pet[:pet]) %>
   <%= f.input :user_id  ,as: :hidden,  :input_html => { :value => "#{current_user.id}"}%>
   <%= error_span(@lost_pet[:user_id]) %>
   <%= f.association :district %>
   <%= error_span(@lost_pet[:district]) %>
+   <%= f.input :info %>
+  <%= error_span(@lost_pet[:info]) %>
   <%= f.input :status  ,as: :hidden,:input_html => { :value => "P"} %>
   <%= error_span(@lost_pet[:status]) %>
   <%= f.button :submit, :class => 'btn-primary' %>
@@ -42,7 +40,7 @@
     var mapCanvas = document.getElementById('map-canvas');
     var mapOptions = {
       center: new google.maps.LatLng(lost_lat,lost_long),
-      zoom: 14,
+      zoom: 18,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     }
     var map = new google.maps.Map(mapCanvas, mapOptions);

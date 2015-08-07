@@ -4,7 +4,12 @@ class CommentsController < ApplicationController
   # GET /comments
   # GET /comments.json
   def index
-    @comments = Comment.all
+    @lost_pet=LostPet.find(params[:lost_pet_id])
+    @comments = @lost_pet.comments.order("created_at DESC")
+    respond_to do |format|
+      format.html { render :index }
+      format.json { render json: @comments }
+    end
   end
 
   # GET /comments/1
@@ -15,6 +20,7 @@ class CommentsController < ApplicationController
   # GET /comments/new
   def new
     @comment = Comment.new
+    @lost_pet=LostPet.find(params[:lost_pet_id])
   end
 
   # GET /comments/1/edit
@@ -25,11 +31,11 @@ class CommentsController < ApplicationController
   # POST /comments.json
   def create
     @comment = Comment.new(comment_params)
-
+    @lost_pet=LostPet.find(params[:lost_pet_id])
     respond_to do |format|
       if @comment.save
-        format.html { redirect_to @comment, notice: 'Comment was successfully created.' }
-        format.json { render :show, status: :created, location: @comment }
+        format.html { redirect_to lost_pet_comment_path(@lost_pet,@comment), notice: 'Comment was successfully created.' }
+        format.json { render json: @comment }
       else
         format.html { render :new }
         format.json { render json: @comment.errors, status: :unprocessable_entity }
@@ -42,8 +48,8 @@ class CommentsController < ApplicationController
   def update
     respond_to do |format|
       if @comment.update(comment_params)
-        format.html { redirect_to @comment, notice: 'Comment was successfully updated.' }
-        format.json { render :show, status: :ok, location: @comment }
+        format.html { redirect_to lost_pet_comment_path(@lost_pet,@comment), notice: 'Comment was successfully updated.' }
+        format.json { render json: @comment  }
       else
         format.html { render :edit }
         format.json { render json: @comment.errors, status: :unprocessable_entity }
@@ -55,8 +61,9 @@ class CommentsController < ApplicationController
   # DELETE /comments/1.json
   def destroy
     @comment.destroy
+    
     respond_to do |format|
-      format.html { redirect_to comments_url, notice: 'Comment was successfully destroyed.' }
+      format.html { redirect_to lost_pet_comments_path(@lost_pet), notice: 'Comment was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -65,6 +72,7 @@ class CommentsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_comment
       @comment = Comment.find(params[:id])
+      @lost_pet=LostPet.find(params[:lost_pet_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
