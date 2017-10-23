@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resources :orderdetails
+  resources :orders
+  resources :products
+  #resources :categories
   resources :races
   #resources :comments
   #resources :my_searches
@@ -21,6 +25,9 @@ Rails.application.routes.draw do
     resource :profiles, only: [:show, :update, :edit]
   end
   
+  resources :stores do
+    resources :categories
+  end  
   #get 'users/:id/:profile' , path: "edit_user_profile" , to: 'profiles#profile_exists'
   
   get '/login' ,to: 'logins#new'

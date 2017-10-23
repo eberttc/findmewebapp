@@ -56,6 +56,10 @@ gem 'twitter-bootstrap-rails'
 gem 'annotate'
 
 
+
+
+
+
 #Autenthicate gem
 #gem 'devise'
 

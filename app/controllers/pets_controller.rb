@@ -6,6 +6,7 @@ class PetsController < ApplicationController
     @user = User.find(params[:user_id])
     #@pets = @user.pets.all
     @pets = @user.pets.all.where({ state:["A", "P"]})
+   
     respond_to do |format|
       format.html { render :index }
       format.json { render json: @pets }
@@ -32,7 +33,7 @@ class PetsController < ApplicationController
   # POST /pets.json
   def create
     @pet = Pet.new(pet_params)
-
+    @pet.state="A"
     respond_to do |format|
       if @pet.save
         format.html { redirect_to user_pet_path(current_user,@pet), notice: 'Pet was successfully created.' }

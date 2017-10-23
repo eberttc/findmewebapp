@@ -7,7 +7,8 @@
     <tr>
       
       <th><%= model_class.human_attribute_name(:lost_pet_id) %></th>
-      <th><%= model_class.human_attribute_name(:user_id) %></th>
+      <th>Photo</th>
+      <th>Owner</th>
       <th>state</th>
       <th><%= model_class.human_attribute_name(:created_at) %></th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
@@ -18,7 +19,8 @@
       <tr>
         
         <td><%= link_to my_search.lost_pet.pet.name, lost_pet_path(my_search.lost_pet)  ,data: { no_turbolink: true } %></td>
-        <td><%= my_search.user.profile.name %></td>
+         <td>  <%= image_tag my_search.lost_pet.pet.photo.url(:thumb)%></td>
+        <td><%= my_search.lost_pet.user.profile.name %></td>
         <%if my_search.lost_pet.pet.state=="P"%>
            <td>LOST</td>
         <%else%>

@@ -15,7 +15,7 @@
   <%= error_span(@pet[:vaccinated]) %>
   <%= f.input :information %>
   <%= error_span(@pet[:information]) %>
-  <%= f.input :state , as: :hidden , :input_html => { :value => "1"}%>
+  <%= f.input :state , as: :hidden , :input_html => { :value => "A"}%>
   <%= error_span(@pet[:state]) %>
   
   <%= f.input :user_id , as: :hidden , :input_html => { :value => "#{current_user.id}"} %>

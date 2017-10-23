@@ -27,6 +27,7 @@
       
       
       <th><%= model_class.human_attribute_name(:pet_id) %></th>
+      <th>Picture</th>
       <th>Owner</th>
       <th><%= model_class.human_attribute_name(:report_date) %></th>
       <th><%= model_class.human_attribute_name(:lost_date) %></th>
@@ -40,6 +41,7 @@
       <tr>
      
         <td><%= link_to lost_pet.pet.name, lost_pet_path(lost_pet)  ,data: { no_turbolink: true } %></td>
+         <td>  <%= image_tag lost_pet.pet.photo.url(:thumb)%></td>
         <% if lost_pet.pet.user.id == current_user.id %>
             <td>Me</td>
         <%else%>
@@ -48,9 +50,9 @@
       
         <td><%= lost_pet.report_date %></td>
         <td><%= lost_pet.lost_date %></td>
-       
         <td><%= lost_pet.info %></td>
         <td><%= lost_pet.district.name %></td>
+       
        
         <td>
           <% if lost_pet.user_id==current_user.id %>

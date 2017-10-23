@@ -11,7 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150807084524) do
+ActiveRecord::Schema.define(version: 20171015020802) do
+
+  create_table "categories", force: :cascade do |t|
+    t.string   "name",       limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
 
   create_table "comments", force: :cascade do |t|
     t.text     "comment",     limit: 65535
@@ -61,6 +67,31 @@ ActiveRecord::Schema.define(version: 20150807084524) do
   add_index "my_searches", ["lost_pet_id"], name: "index_my_searches_on_lost_pet_id", using: :btree
   add_index "my_searches", ["user_id"], name: "index_my_searches_on_user_id", using: :btree
 
+  create_table "orderdetails", force: :cascade do |t|
+    t.integer  "quantity",   limit: 4
+    t.decimal  "price",                precision: 12, scale: 3
+    t.decimal  "subtotal",             precision: 12, scale: 3
+    t.integer  "order_id",   limit: 4
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
+  end
+
+  add_index "orderdetails", ["order_id"], name: "index_orderdetails_on_order_id", using: :btree
+
+  create_table "orders", force: :cascade do |t|
+    t.integer  "user_id",        limit: 4
+    t.integer  "store_id",       limit: 4
+    t.datetime "date"
+    t.string   "payment_method", limit: 255
+    t.string   "status",         limit: 255
+    t.decimal  "total",                      precision: 12, scale: 3
+    t.datetime "created_at",                                          null: false
+    t.datetime "updated_at",                                          null: false
+  end
+
+  add_index "orders", ["store_id"], name: "index_orders_on_store_id", using: :btree
+  add_index "orders", ["user_id"], name: "index_orders_on_user_id", using: :btree
+
   create_table "pet_types", force: :cascade do |t|
     t.string   "name",       limit: 255
     t.datetime "created_at",             null: false
@@ -90,6 +121,18 @@ ActiveRecord::Schema.define(version: 20150807084524) do
   add_index "pets", ["race_id"], name: "index_pets_on_race_id", using: :btree
   add_index "pets", ["user_id"], name: "index_pets_on_user_id", using: :btree
 
+  create_table "products", force: :cascade do |t|
+    t.string   "name",        limit: 255
+    t.integer  "category_id", limit: 4
+    t.string   "description", limit: 255
+    t.decimal  "price",                   precision: 12, scale: 3
+    t.boolean  "active",      limit: 1
+    t.datetime "created_at",                                       null: false
+    t.datetime "updated_at",                                       null: false
+  end
+
+  add_index "products", ["category_id"], name: "index_products_on_category_id", using: :btree
+
   create_table "profiles", force: :cascade do |t|
     t.string   "name",               limit: 255
     t.string   "lastname",           limit: 255
@@ -115,6 +158,26 @@ ActiveRecord::Schema.define(version: 20150807084524) do
     t.datetime "updated_at",             null: false
   end
 
+  create_table "storecategories", force: :cascade do |t|
+    t.integer  "store_id",    limit: 4
+    t.integer  "category_id", limit: 4
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
+  add_index "storecategories", ["category_id"], name: "index_storecategories_on_category_id", using: :btree
+  add_index "storecategories", ["store_id"], name: "index_storecategories_on_store_id", using: :btree
+
+  create_table "stores", force: :cascade do |t|
+    t.string   "name",       limit: 255
+    t.string   "address",    limit: 255
+    t.string   "phone",      limit: 255
+    t.string   "latitude",   limit: 255
+    t.string   "longitude",  limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "email",           limit: 255, default: "", null: false
     t.datetime "created_at",                               null: false
@@ -132,9 +195,15 @@ ActiveRecord::Schema.define(version: 20150807084524) do
   add_foreign_key "lost_pets", "users"
   add_foreign_key "my_searches", "lost_pets"
   add_foreign_key "my_searches", "users"
+  add_foreign_key "orderdetails", "orders"
+  add_foreign_key "orders", "stores"
+  add_foreign_key "orders", "users"
   add_foreign_key "pets", "pet_types"
   add_foreign_key "pets", "races"
   add_foreign_key "pets", "users"
+  add_foreign_key "products", "categories"
   add_foreign_key "profiles", "districts"
   add_foreign_key "profiles", "users"
+  add_foreign_key "storecategories", "categories"
+  add_foreign_key "storecategories", "stores"
 end

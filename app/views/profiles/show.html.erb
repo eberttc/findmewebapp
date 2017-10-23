@@ -4,6 +4,7 @@
 </div>
 
 <dl class="dl-horizontal">
+  <div class="col-sm-5">
   <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
   <dd><%= @profile.name %></dd>
   <dt><strong><%= model_class.human_attribute_name(:lastname) %>:</strong></dt>
@@ -12,8 +13,12 @@
   <dd><%= @profile.address %></dd>
   <dt><strong><%= model_class.human_attribute_name(:sex) %>:</strong></dt>
   <dd><%= @profile.sex %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:photo) %>:</strong></dt>
-  <dd><%= image_tag @profile.photo.url(:thumb) %></dd>
+  </div>
+
+      <div class="col-sm-7">
+      <dt><strong><%= model_class.human_attribute_name(:photo) %>:</strong></dt>
+      <dd><%= image_tag @profile.photo.url(:thumb) %></dd>
+      </div>
 </dl>
 
 <%= link_to t('.edit', :default => t("helpers.links.edit")),
